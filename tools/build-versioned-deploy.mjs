@@ -13,6 +13,9 @@ import { dirname, join } from 'path';
 const root = join(dirname(fileURLToPath(import.meta.url)), '..');
 process.chdir(root);
 
+/** Avoid Nx daemon restarts (e.g. lockfile/package.json changes) killing long sequential builds with write EPIPE. */
+const nxEnv = { ...process.env, NX_DAEMON: 'false' };
+
 if (!process.env.MFE_ASSET_BASE) {
   console.error(
     'Set MFE_ASSET_BASE to the URL prefix where versioned folders will be served (no trailing slash).',
@@ -26,7 +29,7 @@ const versions = JSON.parse(
 
 execSync('node tools/generate-mfe-manifest.mjs prod', {
   stdio: 'inherit',
-  env: { ...process.env, MFE_MANIFEST_MODE: 'prod' },
+  env: { ...nxEnv, MFE_MANIFEST_MODE: 'prod' },
 });
 
 const mfes = Array.from({ length: 10 }, (_, i) => `mfe${String(i + 1).padStart(2, '0')}`);
@@ -39,7 +42,7 @@ for (const name of mfes) {
   }
   execSync(
     `npx nx run ${name}:build:production --outputPath=dist/deploy/${name}/${v}`,
-    { stdio: 'inherit' },
+    { stdio: 'inherit', env: nxEnv },
   );
 }
 
@@ -50,7 +53,7 @@ if (!shellV) {
 }
 execSync(
   `npx nx run shell:build:production --outputPath=dist/deploy/shell/${shellV}`,
-  { stdio: 'inherit' },
+  { stdio: 'inherit', env: nxEnv },
 );
 
 console.log('\nDone. Upload dist/deploy/* to your static host under the same paths as MFE_ASSET_BASE.');

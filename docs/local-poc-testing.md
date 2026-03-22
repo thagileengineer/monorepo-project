@@ -130,7 +130,10 @@ Reload the shell (no query pin): `mfe01` should load the new **`latest`** build.
 
 | Symptom | What to check |
 |--------|----------------|
-| `publish:poc` fails on `aws` | Install AWS CLI v2; ensure `aws` is on `PATH`. |
+| `Cannot connect to the Docker daemon` / `docker.sock` | Start **Docker Desktop** (or your Docker runtime) and wait until it is fully up; run `docker info` to confirm. On macOS the daemon is not running until the app is. |
+| `zsh: command not found: aws` | Install AWS CLI v2, e.g. **macOS:** `brew install awscli`. Open a new terminal and run `aws --version`. |
+| `publish:poc` fails on `aws` | Install AWS CLI v2; ensure `aws` is on `PATH` (Homebrew: `/opt/homebrew/bin/aws`). |
+| `write EPIPE` / `Error: write EPIPE` during `publish:poc` | The Nx daemon restarted mid-pipeline (often after **`package.json` or lockfile** changed). `tools/build-versioned-deploy.mjs` sets **`NX_DAEMON=false`** for each `nx run`. Avoid editing deps or running `npm install` while publishing; retry `npm run publish:poc`. |
 | Access Denied on `s3 sync` | MinIO credentials; default is `minioadmin` / `minioadmin`. |
 | Connection refused on 9000 | `npm run minio:up`; `docker compose -f docker-compose.minio.yml ps`. |
 | Browser CORS errors on MinIO | `minio-mc` must finish (`mc cors set`); restart compose if you wiped volumes. |
