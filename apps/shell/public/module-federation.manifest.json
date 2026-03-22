@@ -1,0 +1,12 @@
+{
+  "mfe01": "http://localhost:4201/mf-manifest.json",
+  "mfe02": "http://localhost:4202/mf-manifest.json",
+  "mfe03": "http://localhost:4203/mf-manifest.json",
+  "mfe04": "http://localhost:4204/mf-manifest.json",
+  "mfe05": "http://localhost:4205/mf-manifest.json",
+  "mfe06": "http://localhost:4206/mf-manifest.json",
+  "mfe07": "http://localhost:4207/mf-manifest.json",
+  "mfe08": "http://localhost:4208/mf-manifest.json",
+  "mfe09": "http://localhost:4209/mf-manifest.json",
+  "mfe10": "http://localhost:4210/mf-manifest.json"
+}

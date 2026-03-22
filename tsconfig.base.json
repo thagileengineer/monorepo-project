@@ -1,0 +1,31 @@
+{
+  "compileOnSave": false,
+  "compilerOptions": {
+    "rootDir": ".",
+    "sourceMap": true,
+    "declaration": false,
+    "moduleResolution": "node",
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "importHelpers": true,
+    "target": "es2015",
+    "module": "esnext",
+    "lib": ["es2020", "dom"],
+    "skipLibCheck": true,
+    "skipDefaultLibCheck": true,
+    "baseUrl": ".",
+    "paths": {
+      "mfe01/Routes": ["apps/mfe01/src/app/remote-entry/entry.routes.ts"],
+      "mfe02/Routes": ["apps/mfe02/src/app/remote-entry/entry.routes.ts"],
+      "mfe03/Routes": ["apps/mfe03/src/app/remote-entry/entry.routes.ts"],
+      "mfe04/Routes": ["apps/mfe04/src/app/remote-entry/entry.routes.ts"],
+      "mfe05/Routes": ["apps/mfe05/src/app/remote-entry/entry.routes.ts"],
+      "mfe06/Routes": ["apps/mfe06/src/app/remote-entry/entry.routes.ts"],
+      "mfe07/Routes": ["apps/mfe07/src/app/remote-entry/entry.routes.ts"],
+      "mfe08/Routes": ["apps/mfe08/src/app/remote-entry/entry.routes.ts"],
+      "mfe09/Routes": ["apps/mfe09/src/app/remote-entry/entry.routes.ts"],
+      "mfe10/Routes": ["apps/mfe10/src/app/remote-entry/entry.routes.ts"]
+    }
+  },
+  "exclude": ["node_modules", "tmp"]
+}
