@@ -1,8 +1,9 @@
 import { NxWelcome } from './nx-welcome';
 import { Route } from '@angular/router';
 import { loadRemote } from '@module-federation/enhanced/runtime';
+import { ShellComponent } from './shell/shell.component';
 
-export const appRoutes: Route[] = [
+const mfeChildRoutes: Route[] = [
   {
     path: 'mfe10',
     loadChildren: () =>
@@ -76,5 +77,13 @@ export const appRoutes: Route[] = [
   {
     path: '',
     component: NxWelcome,
+  },
+];
+
+export const appRoutes: Route[] = [
+  {
+    path: '',
+    component: ShellComponent,
+    children: mfeChildRoutes,
   },
 ];

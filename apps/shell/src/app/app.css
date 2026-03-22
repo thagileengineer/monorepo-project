@@ -1,21 +1,3 @@
-.app-version-banner {
-  font: 600 0.8125rem/1.3 system-ui, sans-serif;
-  padding: 0.5rem 1rem;
-  background: #1a1a2e;
-  color: #e8e8f0;
-  border-bottom: 1px solid #2d2d44;
-}
-
-.remote-menu {
-  margin: 0;
-  padding: 0.75rem 1rem;
-  list-style: none;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.75rem 1rem;
-  border-bottom: 1px solid #e0e0e0;
-}
-
-.remote-menu a {
-  color: #1a73e8;
+:host {
+  display: block;
 }
