@@ -4,6 +4,8 @@
 
 ✨ Your new, shiny [Nx workspace](https://nx.dev) is ready ✨.
 
+**Local MF registry POC (MinIO):** step-by-step testing guide → [docs/local-poc-testing.md](docs/local-poc-testing.md).
+
 [Learn more about this workspace setup and its capabilities](https://nx.dev/getting-started/tutorials/angular-monorepo-tutorial?utm_source=nx_project&amp;utm_medium=readme&amp;utm_campaign=nx_projects) or run `npx nx graph` to visually explore what was created. Now, let's get you up to speed!
 
 ## Run tasks
