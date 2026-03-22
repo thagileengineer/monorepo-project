@@ -71,6 +71,25 @@ This script:
 
 **Override env vars** (optional): `MINIO_ENDPOINT`, `MFE_POC_BUCKET`, `MFE_POC_PREFIX` — see the header in [`tools/publish-poc.mjs`](../tools/publish-poc.mjs).
 
+### Publish only changed apps (affected)
+
+Use **`nx` affected graph** + git so only touched deploy apps are built and uploaded (faster iteration):
+
+```sh
+export MFE_ASSET_BASE=http://localhost:9000/mf-poc/mf
+npm run publish:poc:affected
+```
+
+Or: `MFE_DEPLOY_AFFECTED=1 npm run publish:poc` / `npm run build:deploy:affected`.
+
+- **Compare range:** `NX_BASE` (default `origin/main`) and `NX_HEAD` (default `HEAD`) are passed to `nx show projects --affected`.
+- **Full rebuild** (all mfes + shell) when `git diff` includes `mfe-versions.json`, `nx.json`, `tsconfig.base.json`, or the manifest / `build-version` generator scripts — so version bumps and shared config stay safe.
+- **Shell** is built automatically whenever any **remote** (`mfe01`–`mfe10`) is in the affected set, so the shell bundle picks up the regenerated `module-federation.manifest.json`.
+- **MinIO:** only built apps are `aws s3 sync`’d, then only those get `…/latest/` mirrors. If nothing is affected, upload is skipped.
+- A run summary is written to **`.mfe-deploy-manifest.json`** (gitignored) for `publish:poc` to read.
+
+If `origin/main` is missing, set e.g. `NX_BASE=HEAD~1 NX_HEAD=HEAD`.
+
 ### Sanity-check objects in MinIO
 
 In the console, open bucket **`mf-poc`**, prefix **`mf/`**. You should see `mfe01`, …, `mfe10`, `shell`, each with a semver folder (e.g. `1.0.0`) and **`latest/`**.
