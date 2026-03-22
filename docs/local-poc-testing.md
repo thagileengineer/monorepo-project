@@ -12,6 +12,27 @@ This walkthrough exercises the **S3-compatible MinIO** layout: immutable `app/se
 
 Optional: **bump** versions with `npm run bump:mfe -- <app> <major|minor|patch>` (see [Version bumps](#optional-version-bumps-and-re-publish)).
 
+## Version banners (APP_NAME + semver)
+
+The shell and each remote show a top banner like `mfe01 · v1.0.0`. Values come from **[`mfe-versions.json`](../mfe-versions.json)** via generated files:
+
+- [`apps/shell/src/app/build-version.ts`](../apps/shell/src/app/build-version.ts)
+- [`apps/mfe01/src/app/remote-entry/build-version.ts`](../apps/mfe01/src/app/remote-entry/build-version.ts) (and `mfe02` … `mfe10`)
+
+**Regenerate** after editing `mfe-versions.json`:
+
+```sh
+npm run generate:build-versions
+```
+
+`npm run publish:poc` / `npm run build:deploy` run this automatically (via [`tools/build-versioned-deploy.mjs`](../tools/build-versioned-deploy.mjs)).
+
+### Verify versioning with MinIO
+
+1. **Baseline:** publish and open the shell (see below). On home you should see `shell · v…`; on `/mfe01` … `/mfe10`, each remote shows its name and semver.
+2. **Bump one app:** `npm run bump:mfe -- mfe01 patch`, then `npm run generate:build-versions`, then `publish:poc` again. Reload without query params: `mfe01` should show the **new** version (served from `latest/`).
+3. **Pin:** open `?mf.mfe01=1.0.0` while `1.0.0` still exists under `mf/mfe01/` in MinIO. That remote’s **banner** should show **1.0.0** (older build); others still follow `latest/`.
+
 ## 1. Start MinIO
 
 From the repository root:
@@ -42,7 +63,7 @@ npm run publish:poc
 
 This script:
 
-1. Runs [`tools/build-versioned-deploy.mjs`](../tools/build-versioned-deploy.mjs) (reads [`mfe-versions.json`](../mfe-versions.json), generates a prod manifest with `.../mfe01/latest/mf-manifest.json` (and the other remotes), builds each app into `dist/deploy/...`).
+1. Runs [`tools/build-versioned-deploy.mjs`](../tools/build-versioned-deploy.mjs) (reads [`mfe-versions.json`](../mfe-versions.json), runs [`tools/generate-build-version-modules.mjs`](../tools/generate-build-version-modules.mjs) for UI banners, generates a prod manifest with `.../mfe01/latest/mf-manifest.json` (and the other remotes), builds each app into `dist/deploy/...`).
 2. Syncs `dist/deploy/` to `s3://mf-poc/mf/` via `aws s3 sync` with `--endpoint-url` (default `http://127.0.0.1:9000`).
 3. Mirrors each app’s current semver folder to `s3://mf-poc/mf/{app}/latest/`.
 
@@ -150,5 +171,6 @@ Reload the shell (no query pin): `mfe01` should load the new **`latest`** build.
 | [`tools/serve-shell-poc.mjs`](../tools/serve-shell-poc.mjs) | Static server for POC shell |
 | [`apps/shell/src/mf-remote-overrides.ts`](../apps/shell/src/mf-remote-overrides.ts) | Query / `sessionStorage` pin contract |
 | [`mfe-versions.json`](../mfe-versions.json) | Semver per app for each publish |
+| [`tools/generate-build-version-modules.mjs`](../tools/generate-build-version-modules.mjs) | Writes `build-version.ts` per app from `mfe-versions.json` |
 
 This POC does **not** replace the existing [`Dockerfile`](../Dockerfile) nginx flow; it only simulates an S3-style registry locally.

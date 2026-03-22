@@ -27,6 +27,11 @@ const versions = JSON.parse(
   readFileSync(join(root, 'mfe-versions.json'), 'utf8'),
 );
 
+execSync('node tools/generate-build-version-modules.mjs', {
+  stdio: 'inherit',
+  env: nxEnv,
+});
+
 execSync('node tools/generate-mfe-manifest.mjs prod', {
   stdio: 'inherit',
   env: { ...nxEnv, MFE_MANIFEST_MODE: 'prod' },

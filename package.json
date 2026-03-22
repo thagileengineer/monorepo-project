@@ -3,6 +3,7 @@
   "version": "0.0.0",
   "license": "MIT",
   "scripts": {
+    "generate:build-versions": "node tools/generate-build-version-modules.mjs",
     "manifest:dev": "node tools/generate-mfe-manifest.mjs dev",
     "manifest:prod": "node tools/generate-mfe-manifest.mjs prod",
     "build:deploy": "node tools/build-versioned-deploy.mjs",
