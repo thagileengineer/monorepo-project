@@ -47,12 +47,11 @@ if (mode === 'dev') {
   }
   const b = base.replace(/\/$/, '');
   for (const name of MFES) {
-    const v = versions[name];
-    if (!v) {
+    if (!versions[name]) {
       console.error(`mfe-versions.json missing entry for ${name}`);
       process.exit(1);
     }
-    manifest[name] = `${b}/${name}/${v}/mf-manifest.json`;
+    manifest[name] = `${b}/${name}/latest/mf-manifest.json`;
   }
 }
 

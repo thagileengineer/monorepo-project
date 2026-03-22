@@ -3,7 +3,7 @@
  * build each MFE and the shell into dist/deploy/<project>/<semver>/.
  *
  * Required: MFE_ASSET_BASE — public origin where dist/deploy/** will be hosted
- *   Example: https://my.cdn.example.com  → remote at .../mfe01/1.0.0/mf-manifest.json
+ *   Example: https://cdn.example.com/mf  → remotes at .../mfe01/latest/mf-manifest.json (prod manifest)
  */
 import { readFileSync } from 'fs';
 import { execSync } from 'child_process';

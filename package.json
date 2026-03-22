@@ -6,6 +6,11 @@
     "manifest:dev": "node tools/generate-mfe-manifest.mjs dev",
     "manifest:prod": "node tools/generate-mfe-manifest.mjs prod",
     "build:deploy": "node tools/build-versioned-deploy.mjs",
+    "minio:up": "docker compose -f docker-compose.minio.yml up -d",
+    "minio:down": "docker compose -f docker-compose.minio.yml down",
+    "publish:poc": "node tools/publish-poc.mjs",
+    "serve:shell:poc": "node tools/serve-shell-poc.mjs",
+    "bump:mfe": "node tools/bump-version.mjs",
     "graph": "nx graph"
   },
   "private": true,
